@@ -15,21 +15,23 @@ def read_all_files(tweet_file):
         
 def clean_tweet(tweet):
     return re.sub(r"\s+", ' ', tweet).strip()
-        
+
+def save_tweet_lines(file, tweet_file):
+    saved_line = ""
+    for line in file:
+        if re.match(r"\d+ repl(y|ies) \d+ retweets? \d+ likes?", line):
+            if saved_line:
+                tweet_file.write(saved_line + "\n")
+        else:
+            cleaned = clean_tweet(line)
+            if cleaned:
+                saved_line = cleaned
+
 def read_file(file_name, tweet_file):
     print(f"reading file: {file_name}")
     file = open(file_name, "r")
     try:
-        saved_line = ""
-        for line in file:
-            if re.match(r"\d+ repl(y|ies) \d+ retweets? \d+ likes?", line):
-                if saved_line:
-                    tweet_file.write(saved_line + "\n")
-            else:
-                cleaned = clean_tweet(line)
-                if cleaned:
-                    saved_line = cleaned
-                
+        save_tweet_lines(file, tweet_file)
     finally:
         file.close()
     
