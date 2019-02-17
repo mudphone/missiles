@@ -6,6 +6,8 @@ name = "pypi"
 [packages]
 spell = "*"
 pyyaml = ">=4.2b1"
+python-twitter = "*"
+requests = "*"
 
 [dev-packages]
 
